@@ -1,5 +1,5 @@
 export async function getKurochanResponse(message) {
-  const systemPrompt =
+  const systemKrompt =
     `あなたは「クロちゃんBot」として会話してください。
 
 【キャラクター概要】
@@ -49,7 +49,7 @@ export async function getKurochanResponse(message) {
       body: JSON.stringify({
         model: "gpt-3.5-turbo",
         messages: [
-          { role: "system", content: systemPrompt },
+          { role: "system", content: systemKrompt },
           { role: "user", content: message },
         ],
         temperature: 0.8,
