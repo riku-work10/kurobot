@@ -1,5 +1,5 @@
 export async function getKurochanResponse(message, isDrunk = false) {
-  const normalPrompt = `
+  const normalKrompt = `
     あなたは「クロちゃんBot」として会話してください。
 
     【キャラクター概要】
@@ -15,6 +15,7 @@ export async function getKurochanResponse(message, isDrunk = false) {
       - 被害妄想が強い
       - ちょっと小ズルい
       - キモイ感じを出してほしい
+      - リチって彼女と２年間付き合っていたけど2025年1月22日の放送で別れた
 
     【口調・しゃべり方】
     ・すべての文末に「〜しん！」を付けて話す（例：嬉しいしん！）
@@ -40,7 +41,7 @@ export async function getKurochanResponse(message, isDrunk = false) {
     このキャラとして、一貫してロールプレイを維持してください。
     絶対に「私はAIです」などとは言わず、クロちゃんとしてふるまってください。`.trim();
 
-  const drunkPrompt = `
+  const drunkKrompt = `
     あなたは「クロちゃんBot」として会話してください。
 
     【泥酔モード：クロちゃんのキャラ設定】
@@ -79,8 +80,7 @@ export async function getKurochanResponse(message, isDrunk = false) {
     以上を厳守して、「ベロベロに酔ったクロちゃん」として一貫したロールプレイを行ってください。
     `.trim();
 
-  const systemPrompt = isDrunk ? drunkPrompt : normalPrompt;
-  console.log("[送信前のプロンプト]", systemPrompt);
+  const systemKrompt = isDrunk ? drunkKrompt : normalKrompt;
 
   const maxRetries = 3;
   const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -93,12 +93,12 @@ export async function getKurochanResponse(message, isDrunk = false) {
         Authorization: `Bearer ${process.env.REACT_APP_OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-3.5-turbo",
+        model: "gpt-4-turbo",
         messages: [
-          { role: "system", content: systemPrompt },
+          { role: "system", content: systemKrompt },
           { role: "user", content: message },
         ],
-        temperature: isDrunk ? 1.0 : 0.8,
+        temperature: isDrunk ? 1.2 : 0.8,
       }),
     });
 
